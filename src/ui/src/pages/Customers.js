@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 
 const customers = [
     {
@@ -28,6 +28,21 @@ const customers = [
 
 
 const Customers = () =>{
+    const [customers, setCustomers] = useState([]);
+
+    useLayoutEffect(() =>{
+        const getCustomers = async()=>{
+            const response = await fetch('/api/customers/');
+            const customers = await response.json();
+            setCustomers(customers);
+        }
+
+        getCustomers().catch(e =>{
+            console.log('error fetching customers data: ' + e);
+        });
+    })
+
+
     return(
         <table border='1px'>
             <thead>
